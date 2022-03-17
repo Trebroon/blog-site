@@ -1,0 +1,29 @@
+nav.navbar {
+  background-color: #a49592;
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+
+div.navbar-container {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  max-width: 1250px;
+  width: 100%;
+}
+
+.navbar h1 {
+  margin-right: auto;
+}
+
+.navbar a {
+  margin-right: 15px;
+}
+
+.navbar .btn:hover,
+.navbar .btn:focus {
+  background-color: #e4755f;
+  border-color: #fff;
+  color: #fff;
+}
