@@ -7,6 +7,7 @@ import Login from './pages/Login/Login'
 import Signup from './pages/Signup/Signup'
 import Dashboard from './pages/Dashboard/Dashboard'
 import CreateBlog from './pages/CreateBlog/CreateBlog'
+import BlogPage from './pages/BlogPage/BlogPage'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <div className="container">
           <Routes>
             <Route path='/' element={<Dashboard />} />
+            <Route path='/blog/:id' element={<BlogPage />} />
             <Route path='/createBlog' element={<CreateBlog />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />

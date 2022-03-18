@@ -1,0 +1,12 @@
+div.blog-post {
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+.blog-post p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-bottom: 25px;
+  text-align: start;
+  white-space: pre-wrap;
+}

@@ -20,6 +20,15 @@ module.exports.createBlog = async (req, res) => {
   }
 }
 
+module.exports.getBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    res.json(blog);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports.updateBlog = async (req, res) => {
   try {
     const blog = await Blog.findByIdAndUpdate(req.params.id, { ...req.body });

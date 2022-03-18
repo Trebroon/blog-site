@@ -5,6 +5,7 @@
 
 div.container {
   margin: 0 auto;
+  margin-top: 50px;
   max-width: 1250px;
   min-height: calc(100vh - 100px);
 }
