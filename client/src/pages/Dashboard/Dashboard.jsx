@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Axios from 'axios'
+import axios from 'axios'
 
 // styles
 import './Dashboard.css'
@@ -8,7 +8,7 @@ export default function Dashboard() {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    Axios.get('http://localhost:5000/').then((response) => {
+    axios.get('http://localhost:5000/api').then((response) => {
       setBlogs(response.data)
     })
   }, [])

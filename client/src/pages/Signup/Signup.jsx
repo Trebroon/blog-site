@@ -10,37 +10,37 @@ export default function Signup() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [profilePicture, setProfilePicture] = useState(null)
-  const [profilePictureError, setProfilePictureError] = useState(null)
+  // const [profilePicture, setProfilePicture] = useState(null)
+  // const [profilePictureError, setProfilePictureError] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(email, password, confirmPassword, username, profilePicture)
+    console.log(email, password, confirmPassword, username)
   }
 
-  const handleFileChange = (e) => {
-    setProfilePicture(null)
-    let selected = e.target.files[0]
+  // const handleFileChange = (e) => {
+  //   setProfilePicture(null)
+  //   let selected = e.target.files[0]
 
-    if(!selected) {
-      setProfilePictureError('Please select a file')
-      return
-    }
-    if(!selected.type.includes('image')) {
-      setProfilePictureError('Selected file must be an image')
-      return
-    }
-    if(selected.size > 2500000) {
-      setProfilePictureError('Image file size must be less than 2.5mb')
-      return
-    }
+  //   if(!selected) {
+  //     setProfilePictureError('Please select a file')
+  //     return
+  //   }
+  //   if(!selected.type.includes('image')) {
+  //     setProfilePictureError('Selected file must be an image')
+  //     return
+  //   }
+  //   if(selected.size > 2500000) {
+  //     setProfilePictureError('Image file size must be less than 2.5mb')
+  //     return
+  //   }
     
-    setProfilePictureError(null)
-    setProfilePicture(selected)
-  }
+  //   setProfilePictureError(null)
+  //   setProfilePicture(selected)
+  // }
   
   return (
-    <form className='user-form' onSubmit={handleSubmit}>
+    <form className='form' onSubmit={handleSubmit}>
       <h2><FaUser /> Create an account</h2>
       <label>
         <span><MdOutlineAlternateEmail /> Email:</span>
@@ -58,11 +58,11 @@ export default function Signup() {
         <span><FaUser /> Username:</span>
         <input type="text" name='username' required onChange={(e) => setUsername(e.target.value)} value={username} />
       </label>
-      <label>
+      {/* <label>
         <span>Profile picture:</span>
         <input type="file" name="profile-picture" required onChange={handleFileChange} />
-        {profilePictureError && <div>{profilePictureError}</div>}
-      </label>
+        {profilePictureError && <div className='error'>{profilePictureError}</div>}
+      </label> */}
       <button className="btn"><FaUserPlus /> Sign Up</button>
     </form>
   )

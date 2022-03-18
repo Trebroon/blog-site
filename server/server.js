@@ -15,7 +15,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/', blogRoutes)
+app.use('/api', blogRoutes)
 
 app.listen(port, () => {
   console.log(`Serving on port ${port}`);
