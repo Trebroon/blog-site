@@ -1,22 +1,28 @@
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 // styles & icons 
 import './CreateBlog.css'
 import { FaPencilAlt } from 'react-icons/fa'
 
 export default function CreateBlog() {
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const [isPending, setIsPending] = useState(false)
   // const [blogImage, setBlogImage] = useState(null)
   // const [blogImageError, setBlogImageError] = useState(null)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    axios.post('http://localhost:5000/api', {
+    setIsPending(true)
+    await axios.post('http://localhost:5000/api', {
       title,
       text,
     })
+    setIsPending(false)
+    navigate('/')
   }
 
   // const handleFileChange = (e) => {
@@ -56,7 +62,8 @@ export default function CreateBlog() {
         <input type="file" name="image" required onChange={handleFileChange} />
         {blogImageError && <div className='error'>{blogImageError}</div>}
       </label> */}
-      <button className='btn'>Submit</button>
+      {!isPending && <button className='btn'>Submit</button>}
+      {isPending && <button className='btn' disabled>Submiting...</button>}
     </form>
   )
 }
