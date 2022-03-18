@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-// styles
+// styles & components
 import './Dashboard.css'
+import BlogCard from '../../components/BlogCard'
 
 export default function Dashboard() {
   const [blogs, setBlogs] = useState([])
@@ -14,15 +15,11 @@ export default function Dashboard() {
   }, [])
 
   return (
-    <div>
-      {blogs.map((blog) => {
-        return (
-          <div key={blog._id}>
-            <h3>{blog.title}</h3>
-            <p>{blog.text}</p>
-          </div>
-        )
-      })}
+    <div className="dashboard">
+      <h2>Most recent articles</h2>
+      <div className='blogs-grid'>
+        {blogs.map((blog) => <BlogCard blog={blog} key={blog._id} />)}
+      </div>
     </div>
   )
 }
