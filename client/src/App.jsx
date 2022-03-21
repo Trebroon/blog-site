@@ -7,6 +7,7 @@ import Login from './pages/Login/Login'
 import Signup from './pages/Signup/Signup'
 import Dashboard from './pages/Dashboard/Dashboard'
 import CreateBlog from './pages/CreateBlog/CreateBlog'
+import EditBlog from './pages/EditBlog/EditBlog'
 import BlogPage from './pages/BlogPage/BlogPage'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Dashboard />} />
             <Route path='/blog/:id' element={<BlogPage />} />
+            <Route path='/blog/:id/edit' element={<EditBlog />} />
             <Route path='/createBlog' element={<CreateBlog />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />

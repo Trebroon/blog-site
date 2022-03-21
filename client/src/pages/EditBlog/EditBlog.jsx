@@ -1,55 +1,43 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 
-// styles & icons 
-import './CreateBlog.css'
+// styles & icons
+import './EditBlog.css'
 import { FaPencilAlt } from 'react-icons/fa'
 
-export default function CreateBlog() {
+export default function EditBlog() {
   const navigate = useNavigate()
+  const { id } = useParams()
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [isPending, setIsPending] = useState(false)
   // const [blogImage, setBlogImage] = useState(null)
   // const [blogImageError, setBlogImageError] = useState(null)
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/blog/${id}`).then((res) => {
+      setTitle(res.data.title)
+      setText(res.data.text)
+    })
+  }, [])
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     setIsPending(true)
-    await axios.post('http://localhost:5000/api', {
+    axios.put(`http://localhost:5000/api/blog/${id}`, {
       title,
-      text,
+      text
     }).then(() => {
       setIsPending(false)
-      navigate('/')
+      navigate(`/blog/${id}`)
     })
+    
   }
 
-  // const handleFileChange = (e) => {
-  //   setBlogImage(null)
-  //   let selected = e.target.files[0]
-
-  //   if(!selected) {
-  //     setBlogImageError('Please select a file')
-  //     return
-  //   }
-  //   if(!selected.type.includes('image')) {
-  //     setBlogImageError('Selected file must be an image')
-  //     return
-  //   }
-  //   if(selected.size > 2500000) {
-  //     setBlogImageError('Image file size must be less than 2.5mb')
-  //     return
-  //   }
-    
-  //   setBlogImageError(null)
-  //   setBlogImage(selected)
-  // }
-  
   return (
     <form className='form blog-form' onSubmit={handleSubmit}>
-      <h2><FaPencilAlt /> Write your new blog</h2>
+      <h2><FaPencilAlt /> Edit your blog</h2>
       <label>
         <span>Title of your blog:</span>
         <input type="text" name="title" required autoFocus onChange={(e) => setTitle(e.target.value)} value={title} />
