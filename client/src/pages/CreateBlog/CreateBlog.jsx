@@ -17,7 +17,7 @@ export default function CreateBlog() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsPending(true)
-    await axios.post('http://localhost:5000/api', {
+    await axios.post('/api', {
       title,
       text,
     }).then(() => {

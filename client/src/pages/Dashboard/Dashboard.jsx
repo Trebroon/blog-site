@@ -9,7 +9,7 @@ export default function Dashboard() {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api').then((response) => {
+    axios.get('/api').then((response) => {
       setBlogs(response.data)
     })
   }, [])

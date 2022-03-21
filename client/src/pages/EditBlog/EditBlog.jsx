@@ -16,7 +16,7 @@ export default function EditBlog() {
   // const [blogImageError, setBlogImageError] = useState(null)
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/blog/${id}`).then((res) => {
+    axios.get(`/api/blog/${id}`).then((res) => {
       setTitle(res.data.title)
       setText(res.data.text)
     })
@@ -25,7 +25,7 @@ export default function EditBlog() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsPending(true)
-    axios.put(`http://localhost:5000/api/blog/${id}`, {
+    axios.put(`/api/blog/${id}`, {
       title,
       text
     }).then(() => {

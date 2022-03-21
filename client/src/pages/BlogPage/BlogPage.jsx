@@ -11,7 +11,7 @@ export default function BlogPage() {
   const [blog, setBlog] = useState({})
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/blog/${id}`).then((response) => {
+    axios.get(`/api/blog/${id}`).then((response) => {
       setBlog(response.data)
     })
   }, [])
@@ -21,7 +21,7 @@ export default function BlogPage() {
   }
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:5000/api/blog/${id}`).then(() => {
+    axios.delete(`/api/blog/${id}`).then(() => {
       navigate('/')
     })
   }
