@@ -9,13 +9,13 @@ export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
   // const [profilePicture, setProfilePicture] = useState(null)
   // const [profilePictureError, setProfilePictureError] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(email, password, confirmPassword, username)
+    console.log(email, password, confirmPassword, name)
   }
 
   // const handleFileChange = (e) => {
@@ -56,7 +56,7 @@ export default function Signup() {
       </label>
       <label>
         <span><FaUser /> Username:</span>
-        <input type="text" name='username' required onChange={(e) => setUsername(e.target.value)} value={username} />
+        <input type="text" name='name' required onChange={(e) => setName(e.target.value)} value={name} />
       </label>
       {/* <label>
         <span>Profile picture:</span>
