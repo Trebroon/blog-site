@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 // styles & icons
 import './Login.css'
@@ -6,12 +8,18 @@ import { FaUser, FaUserCheck, FaLock } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
 
 export default function Login() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(email, password)
+    
+    axios.post('/api/users/login', {
+      email,
+      password,
+    }).then(navigate('/'))
   }
   
   return (
@@ -25,6 +33,7 @@ export default function Login() {
         <span><FaLock /> Password</span>
         <input type="password" name="password" required onChange={(e) => setPassword(e.target.value)} value={password} />
       </label>
+      {error && <div className='error'>Wrong Username or Password</div>}
       <button className="btn"><FaUserCheck /> Log in</button>
     </form>
   )

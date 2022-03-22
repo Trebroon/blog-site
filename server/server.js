@@ -75,7 +75,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // routes 
 app.use('/api', blogRoutes);
-app.use('api/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(port, () => {
   console.log(`Serving on port ${port}`);

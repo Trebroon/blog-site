@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 // styles & icons
 import './Signup.css'
@@ -6,16 +8,30 @@ import { FaUser, FaUserPlus, FaLock, FaLockOpen } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
 
 export default function Signup() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
+  const [passwordsNotMatch, setPasswordsNotMatch] = useState(false)
   // const [profilePicture, setProfilePicture] = useState(null)
   // const [profilePictureError, setProfilePictureError] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(email, password, confirmPassword, name)
+
+    if(password !== confirmPassword) {
+      return setPasswordsNotMatch(true)
+    }
+
+    axios.post('/api/users/register', {
+      email,
+      password,
+      name,
+    }).then(() => {
+      setPasswordsNotMatch(false)
+      navigate('/')
+    })
   }
 
   // const handleFileChange = (e) => {
@@ -63,6 +79,7 @@ export default function Signup() {
         <input type="file" name="profile-picture" required onChange={handleFileChange} />
         {profilePictureError && <div className='error'>{profilePictureError}</div>}
       </label> */}
+      {passwordsNotMatch && <div className='error'>Passwords don't match</div>}
       <button className="btn"><FaUserPlus /> Sign Up</button>
     </form>
   )
