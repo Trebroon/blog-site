@@ -19,7 +19,10 @@ export default function Login() {
     axios.post('/api/users/login', {
       email,
       password,
-    }).then(navigate('/'))
+    }).then((response) => {
+      console.log(response.data)
+      navigate('/')
+    })
   }
   
   return (

@@ -11,25 +11,26 @@ export default function Signup() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [password2, setPassword2] = useState('')
   const [name, setName] = useState('')
-  const [passwordsNotMatch, setPasswordsNotMatch] = useState(false)
+  const [error, setError] = useState(null)
   // const [profilePicture, setProfilePicture] = useState(null)
   // const [profilePictureError, setProfilePictureError] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(password !== confirmPassword) {
-      return setPasswordsNotMatch(true)
-    }
-
     axios.post('/api/users/register', {
       email,
       password,
+      password2,
       name,
-    }).then(() => {
-      setPasswordsNotMatch(false)
+    }).then((response) => {
+      if (response.data.error) {
+        return (
+          setError(response.data.msg)
+        )
+      }
       navigate('/')
     })
   }
@@ -68,7 +69,7 @@ export default function Signup() {
       </label>
       <label>
         <span><FaLock /> Confirm password:</span>
-        <input type="password" name="confirm-password" required onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} />
+        <input type="password" name="confirm-password" required onChange={(e) => setPassword2(e.target.value)} value={password2} />
       </label>
       <label>
         <span><FaUser /> Username:</span>
@@ -79,7 +80,7 @@ export default function Signup() {
         <input type="file" name="profile-picture" required onChange={handleFileChange} />
         {profilePictureError && <div className='error'>{profilePictureError}</div>}
       </label> */}
-      {passwordsNotMatch && <div className='error'>Passwords don't match</div>}
+      {error && <div className='error'>{error}</div>}
       <button className="btn"><FaUserPlus /> Sign Up</button>
     </form>
   )

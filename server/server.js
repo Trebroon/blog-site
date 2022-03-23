@@ -3,13 +3,13 @@ const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
+const passport = require('passport');
 
 // User model 
 const User = require('./models/user');
 
-// passport 
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
+// passport config
+require('./config/passport')(passport);
 
 // DB config
 const connectDB = require('./config/db');
@@ -67,15 +67,10 @@ connectDB();
 // initialing passport 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
 
 // routes 
-app.use('/api', blogRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api', blogRoutes);
 
 app.listen(port, () => {
   console.log(`Serving on port ${port}`);
