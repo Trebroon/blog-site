@@ -3,6 +3,8 @@ const passport = require('passport');
 
 const User = require('../models/user');
 
+// route /api/users/register
+// registering new user
 module.exports.register = async (req, res) => {
   try {
     let newUser = {};
@@ -16,7 +18,6 @@ module.exports.register = async (req, res) => {
     if(password !== password2) {
       return res.json({ error: 1, msg: 'Passwords don\'t match' });
     }
-  
 
     // check if user already exists, else create new user
     const user = await User.findOne({ email: email });
@@ -33,6 +34,7 @@ module.exports.register = async (req, res) => {
       });
     });
 
+    // saving new user
     const regUser = await newUser.save();
     res.json(regUser);
 
@@ -42,8 +44,11 @@ module.exports.register = async (req, res) => {
   }
 };
 
-module.exports.login = (req, res) => {
-  res.json({ user: req.body });
+// route /api/users/login
+// login user
+module.exports.login = (req, res, next) => {
+  passport.authenticate('local')(req, res, next);
+  res.json({ msg: 'Logged in '});
 };
 
 module.exports.logout = (req, res) => {

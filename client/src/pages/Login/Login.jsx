@@ -12,15 +12,17 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
+  const [isPending, setIsPending] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setIsPending(true)
     
     axios.post('/api/users/login', {
       email,
       password,
     }).then((response) => {
-      console.log(response.data)
+      setIsPending(false)
       navigate('/')
     })
   }
@@ -37,7 +39,8 @@ export default function Login() {
         <input type="password" name="password" required onChange={(e) => setPassword(e.target.value)} value={password} />
       </label>
       {error && <div className='error'>Wrong Username or Password</div>}
-      <button className="btn"><FaUserCheck /> Log in</button>
+      {!isPending && <button className="btn"><FaUserCheck /> Log in</button>}
+      {isPending && <button className="btn" disabled><FaUserCheck /> Log in</button>}
     </form>
   )
 }
