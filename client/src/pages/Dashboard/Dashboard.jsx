@@ -7,23 +7,20 @@ import BlogCard from '../../components/BlogCard'
 
 export default function Dashboard() {
   const [blogs, setBlogs] = useState([])
-  const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
-    setIsPending(true)
     axios.get('/api').then((response) => {
       setBlogs(response.data)
     })
-    setIsPending(false)
   }, [])
 
   return (
     <div className="dashboard">
       <h2>Most recent articles</h2>
-      {isPending && <div>Loading articles...</div>}
-      {!isPending && (
+      {!blogs && <div>Loading articles...</div>}
+      {blogs && (
         <div className='blogs-grid'>
-        {blogs.map((blog) => <BlogCard blog={blog} key={blog._id} />)}
+          {blogs.map((blog) => <BlogCard blog={blog} key={blog._id} />)}
         </div>
       )}
     </div>
