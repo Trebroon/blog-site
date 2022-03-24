@@ -51,6 +51,9 @@ module.exports.login = (req, res, next) => {
   res.json({ msg: 'Logged in '});
 };
 
+// route /api/users/logout
+// logout user
 module.exports.logout = (req, res) => {
-  res.json({ logout: true });
+  req.logout();
+  res.json({ logout: 'Logged out' });
 };
