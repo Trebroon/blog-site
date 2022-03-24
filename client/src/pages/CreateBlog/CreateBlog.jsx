@@ -11,8 +11,6 @@ export default function CreateBlog() {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [isPending, setIsPending] = useState(false)
-  // const [blogImage, setBlogImage] = useState(null)
-  // const [blogImageError, setBlogImageError] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -25,27 +23,6 @@ export default function CreateBlog() {
       navigate('/')
     })
   }
-
-  // const handleFileChange = (e) => {
-  //   setBlogImage(null)
-  //   let selected = e.target.files[0]
-
-  //   if(!selected) {
-  //     setBlogImageError('Please select a file')
-  //     return
-  //   }
-  //   if(!selected.type.includes('image')) {
-  //     setBlogImageError('Selected file must be an image')
-  //     return
-  //   }
-  //   if(selected.size > 2500000) {
-  //     setBlogImageError('Image file size must be less than 2.5mb')
-  //     return
-  //   }
-    
-  //   setBlogImageError(null)
-  //   setBlogImage(selected)
-  // }
   
   return (
     <form className='form blog-form' onSubmit={handleSubmit}>

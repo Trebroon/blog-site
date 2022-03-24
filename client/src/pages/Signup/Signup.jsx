@@ -14,11 +14,11 @@ export default function Signup() {
   const [password2, setPassword2] = useState('')
   const [name, setName] = useState('')
   const [error, setError] = useState(null)
-  // const [profilePicture, setProfilePicture] = useState(null)
-  // const [profilePictureError, setProfilePictureError] = useState(null)
+  const [isPending, setIsPending] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setIsPending(true)
 
     axios.post('/api/users/register', {
       email,
@@ -27,34 +27,13 @@ export default function Signup() {
       name,
     }).then((response) => {
       if (response.data.error) {
-        return (
-          setError(response.data.msg)
-        )
+        setIsPending(false)
+        return setError(response.data.msg)
       }
+      setIsPending(false)
       navigate('/')
     })
   }
-
-  // const handleFileChange = (e) => {
-  //   setProfilePicture(null)
-  //   let selected = e.target.files[0]
-
-  //   if(!selected) {
-  //     setProfilePictureError('Please select a file')
-  //     return
-  //   }
-  //   if(!selected.type.includes('image')) {
-  //     setProfilePictureError('Selected file must be an image')
-  //     return
-  //   }
-  //   if(selected.size > 2500000) {
-  //     setProfilePictureError('Image file size must be less than 2.5mb')
-  //     return
-  //   }
-    
-  //   setProfilePictureError(null)
-  //   setProfilePicture(selected)
-  // }
   
   return (
     <form className='form' onSubmit={handleSubmit}>
@@ -75,13 +54,9 @@ export default function Signup() {
         <span><FaUser /> Username:</span>
         <input type="text" name='name' required onChange={(e) => setName(e.target.value)} value={name} />
       </label>
-      {/* <label>
-        <span>Profile picture:</span>
-        <input type="file" name="profile-picture" required onChange={handleFileChange} />
-        {profilePictureError && <div className='error'>{profilePictureError}</div>}
-      </label> */}
       {error && <div className='error'>{error}</div>}
-      <button className="btn"><FaUserPlus /> Sign Up</button>
+      {!isPending && <button className="btn"><FaUserPlus /> Sign Up</button>}
+      {isPending && <button className='btn'><FaUserPlus /> Signing Up...</button>}
     </form>
   )
 }
