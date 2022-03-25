@@ -47,8 +47,17 @@ module.exports.register = async (req, res) => {
 // route /api/users/login
 // login user
 module.exports.login = (req, res, next) => {
-  passport.authenticate('local')(req, res, next);
-  res.json({ msg: 'Logged in '});
+  passport.authenticate('local', (error, user, info) => {
+    if(error) throw error;
+    if(!user) res.json({ msg: 'Incorrect Username or Password'});
+    else {
+      req.login(user, (error) => {
+        if(error) throw error;
+        res.json({ msg: 'Successfully Authenticated' });
+        console.log(req.user);
+      })
+    }
+  })(req, res, next);
 };
 
 // route /api/users/logout

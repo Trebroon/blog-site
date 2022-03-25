@@ -23,6 +23,7 @@ export default function Login() {
       password,
     }).then((response) => {
       setIsPending(false)
+      console.log(response)
       navigate('/')
     })
   }
