@@ -1,13 +1,19 @@
 const bcrypt = require('bcryptjs');
-const passport = require('passport');
+const JWT = require('jsonwebtoken');
 
 const User = require('../models/user');
+
+const signToken = userID => {
+  return JWT.sign({
+    iss: 'blog-site',
+    sub: userID
+  }, process.env.JWT_SECRET, { expiresIn: '3h'});
+}
 
 // route /api/users/register
 // registering new user
 module.exports.register = async (req, res) => {
   try {
-    let newUser = {};
     const { email, password, password2, name } = req.body;
     // password validation
     // must be longer then 6 
@@ -24,19 +30,18 @@ module.exports.register = async (req, res) => {
     if(user) {
       return res.json({ error: 1, msg: 'User with this email already exists.'});
     } else {
-      newUser = new User({ email, password, name });
-    };
-
-    // crypting user password
-    bcrypt.genSalt(10, (error, salt) => {
-      bcrypt.hash(newUser.password, salt, (error, hash) => {
-        newUser.password = hash;
+      const newUser = new User({ email, password, name });
+      // crypting user password
+      bcrypt.genSalt(10, function(error, salt) {
+        bcrypt.hash(newUser.password, salt, (error, hash) => {
+          // hashing users password
+          newUser.password = hash;
+          // saving new user to database
+          const regUser = newUser.save();
+          res.json(regUser);
+        });
       });
-    });
-
-    // saving new user
-    const regUser = await newUser.save();
-    res.json(regUser);
+    };
 
   } catch (error) {
     console.log(error.message);
@@ -47,22 +52,16 @@ module.exports.register = async (req, res) => {
 // route /api/users/login
 // login user
 module.exports.login = (req, res, next) => {
-  passport.authenticate('local', (error, user, info) => {
-    if(error) throw error;
-    if(!user) res.json({ msg: 'Incorrect Username or Password'});
-    else {
-      req.login(user, (error) => {
-        if(error) throw error;
-        res.json({ msg: 'Successfully Authenticated' });
-        console.log(req.user);
-      })
-    }
-  })(req, res, next);
-};
+  if(req.isAuthenticated()) {
+    const { _id, email, name } = req.user;
+    const token = signToken(_id);
+    res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+    res.json({ isAuthenticated: true, user: { name, email }});
+  }}
 
 // route /api/users/logout
 // logout user
 module.exports.logout = (req, res) => {
-  req.logout();
-  res.json({ logout: 'Logged out' });
+  res.clearCookie('access_token');
+  res.json({ user: { email: '', name: '' }, succes : true });
 };

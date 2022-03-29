@@ -1,5 +1,6 @@
 const express = require('express');
 const { register, login, logout } = require('../controllers/userControllers');
+const passport = require('passport');
 
 const router = express.Router();
 
@@ -9,8 +10,8 @@ router
 
 router
   .route('/login')
-  .post(login);
+  .post(passport.authenticate('local', { session: false }), login);
 
-router.get('/logout', logout);
+router.get('/logout', passport.authenticate('jwt', { session: false }), logout);
 
 module.exports = router;

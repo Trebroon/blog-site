@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv').config();
 const passport = require('passport');
 
@@ -27,51 +28,14 @@ const port = process.env.PORT || 5000;
 const secret = process.env.SECRET || 'idontreallylikesimpanzees';
 const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/blog-site';
 
-// session
-// mongo store config
-const store = MongoStore.create({
-  mongoUrl: dbURL,
-  touchAfter: 24 * 60 * 60,
-  crypto: {
-    secret,
-  },
-});
-// mongo store on error
-store.on('error', function(e){
-  console.log('SESSION STORE ERROR', e);
-});
-// session config
-const sessionConfig = {
-  store,
-  name: 'api',
-  secret,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-      httpOnly: true,
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-};
-
-// session initialization
 const app = express();
-app.use(session(sessionConfig));
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(mongoSanitize());
 
 // connecting to db
 connectDB();
-
-// initialing passport 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-})
 
 // routes 
 app.use('/api/users', userRoutes);
