@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useAuthContext } from './hooks/useAuthContext'
 
 // styles & components
 import './App.css'
@@ -11,6 +12,9 @@ import EditBlog from './pages/EditBlog/EditBlog'
 import BlogPage from './pages/BlogPage/BlogPage'
 
 function App() {
+  const { user, token, isAuthenticated } = useAuthContext();
+  console.log(user, token, isAuthenticated)
+  
   return (
     <div className="App">
       <BrowserRouter>

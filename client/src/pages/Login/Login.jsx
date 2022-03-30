@@ -21,11 +21,12 @@ export default function Login() {
     axios.post('/api/users/login', {
       email,
       password,
-    }).then((response) => {
-      setIsPending(false)
-      console.log(response)
-      navigate('/')
-    })
+    }, { withCredentials: true })
+      .then((response) => {
+        setIsPending(false)
+        console.log(response)
+        // navigate('/')
+      })
   }
   
   return (

@@ -12,10 +12,10 @@ export default function CreateBlog() {
   const [text, setText] = useState('')
   const [isPending, setIsPending] = useState(false)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setIsPending(true)
-    await axios.post('/api', {
+    axios.post('/api', {
       title,
       text,
     }).then(() => {
