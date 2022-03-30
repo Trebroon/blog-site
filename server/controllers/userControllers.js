@@ -63,5 +63,5 @@ module.exports.login = (req, res, next) => {
 // logout user
 module.exports.logout = (req, res) => {
   res.clearCookie('access_token');
-  res.json({ user: { email: '', name: '' }, succes : true });
+  res.json({ isAuthenticated: false, user: { email: '', name: '' }});
 };

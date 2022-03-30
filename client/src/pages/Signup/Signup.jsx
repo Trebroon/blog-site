@@ -1,38 +1,21 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
 // styles & icons
 import './Signup.css'
 import { FaUser, FaUserPlus, FaLock, FaLockOpen } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
+import { useSignup } from '../../hooks/useSignup'
 
 export default function Signup() {
-  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
   const [name, setName] = useState('')
-  const [error, setError] = useState(null)
-  const [isPending, setIsPending] = useState(false)
+  const { signup, isPending, error } = useSignup()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setIsPending(true)
-
-    axios.post('/api/users/register', {
-      email,
-      password,
-      password2,
-      name,
-    }).then((response) => {
-      if (response.data.error) {
-        setIsPending(false)
-        return setError(response.data.msg)
-      }
-      setIsPending(false)
-      navigate('/')
-    })
+    signup(email, password, password2, name)
   }
   
   return (

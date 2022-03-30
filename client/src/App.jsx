@@ -12,8 +12,6 @@ import EditBlog from './pages/EditBlog/EditBlog'
 import BlogPage from './pages/BlogPage/BlogPage'
 
 function App() {
-  const { user, token, isAuthenticated } = useAuthContext();
-  console.log(user, token, isAuthenticated)
   
   return (
     <div className="App">

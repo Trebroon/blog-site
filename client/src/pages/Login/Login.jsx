@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { useLogin } from '../../hooks/useLogin'
 
 // styles & icons
 import './Login.css'
@@ -8,25 +7,13 @@ import { FaUser, FaUserCheck, FaLock } from 'react-icons/fa'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
 
 export default function Login() {
-  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
-  const [isPending, setIsPending] = useState(false)
+  const { login, isPending, error } = useLogin()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setIsPending(true)
-    
-    axios.post('/api/users/login', {
-      email,
-      password,
-    }, { withCredentials: true })
-      .then((response) => {
-        setIsPending(false)
-        console.log(response)
-        // navigate('/')
-      })
+    login(email, password)
   }
   
   return (
